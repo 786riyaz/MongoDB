@@ -1,0 +1,8 @@
+-   Check MongoDB installation
+    mongo
+
+-   Exit Mongo Shell
+    exit
+
+-   clear shell screen
+    cls

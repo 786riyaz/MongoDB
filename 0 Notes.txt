@@ -1,0 +1,35 @@
+Comparision ====>
+Relation DB         MongoDB
+Database            Database
+Table               Collection
+Row                 Document
+Column              Field
+===========================================================================================================
+Documentation ::: 
+https://www.mongodb.com/docs/
+===========================================================================================================
+| Category           | Example Command            | Description           |
+| ------------------ | -------------------------- | --------------------- |
+| Insert             | `db.col.insertOne({...})`  | Add document          |
+| Find               | `db.col.find({...})`       | Retrieve data         |
+| Update             | `$set`, `$inc`             | Modify document       |
+| Delete             | `db.col.deleteOne()`       | Remove document       |
+| Validation         | `$jsonSchema`              | Enforce data rules    |
+| Cursor             | `.limit().sort()`          | Iterate query results |
+| Read/Write Concern | `{ w: "majority" }`        | Control data safety   |
+| Retryable          | `retryReads / retryWrites` | Auto retry ops        |
+| Index              | `createIndex()`            | Optimize queries      |
+| Explain            | `.explain()`               | Analyze query plan    |
+| Vector Search      | `$vectorSearch`            | AI-based similarity   |
+| Sharding           | `sh.shardCollection()`     | Scale horizontally    |
+
+===========================================================================================================
+| Operation            | MongoDB Command Example                           | Description                    |
+| -------------------- | ------------------------------------------------- | ------------------------------ |
+| Insert current date  | `{ orderDate: new Date() }`                       | Stores full current date/time  |
+| Insert specific date | `{ orderDate: new Date("2024-12-25") }`           | Stores given date              |
+| Insert specific time | `{ orderDate: new Date("2024-12-25T10:30:00Z") }` | Stores date with exact time    |
+| Fetch today’s docs   | `$gte: today, $lt: tomorrow`                      | Finds docs from current date   |
+| Fetch specific date  | `$gte` and `$lt` for a fixed day                  | Finds docs from that day       |
+| Update date          | `$set: { orderDate: new Date(...) }`              | Modifies stored date           |
+| Distinct categories  | `db.orders.distinct("category")`                  | Returns unique category values |
