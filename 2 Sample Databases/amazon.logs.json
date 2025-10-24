@@ -1,0 +1,9 @@
+[{
+  "_id": {
+    "$oid": "68fb81c5a4fd6a9745c89185"
+  },
+  "message": "Logged in...",
+  "createdAt": {
+    "$date": "2025-10-24T13:40:21.454Z"
+  }
+}]

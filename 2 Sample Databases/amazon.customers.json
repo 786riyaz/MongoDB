@@ -1,0 +1,64 @@
+[{
+  "_id": {
+    "$oid": "68f36bee95d81f19cc1be6e9"
+  },
+  "name": "RiyazKhan",
+  "age": 25,
+  "city": "Gandhinagar",
+  "balance": 12000,
+  "emailID": "moh.riyazpathan@gmail.com",
+  "status": "Active",
+  "lastModified": {
+    "$date": "2025-10-20T12:05:31.008Z"
+  },
+  "loginCount": 1,
+  "customerID": "1"
+},
+{
+  "_id": {
+    "$oid": "68f36bee95d81f19cc1be6ea"
+  },
+  "name": "Arbaz Shaikh",
+  "age": 25,
+  "balance": 25000,
+  "city": "Ahmedabad",
+  "emailID": "arbazshaikh@gmail.com",
+  "status": "Active",
+  "lastModified": {
+    "$date": "2025-10-20T12:05:31.009Z"
+  },
+  "loginCount": 1,
+  "customerID": "2"
+},
+{
+  "_id": {
+    "$oid": "68f4f4bdf1bce43581530ce8"
+  },
+  "name": "Femida Datre",
+  "age": 24,
+  "city": "Mumbai",
+  "balance": 1500,
+  "emailID": "femidadatre@outlook.com",
+  "status": "Inactive",
+  "lastModified": {
+    "$date": "2025-10-20T12:05:31.009Z"
+  },
+  "loginCount": 1,
+  "customerID": "3"
+},
+{
+  "_id": {
+    "$oid": "68f4f55ef1bce43581530ce9"
+  },
+  "name": "Tasin Pathan",
+  "age": 20,
+  "balance": 1000,
+  "city": "Ahmedabad",
+  "emailID": "tasinkhan@gmail.com",
+  "status": "Active",
+  "lastModified": {
+    "$date": "2025-10-20T12:05:31.009Z"
+  },
+  "loginCount": 1,
+  "customerID": "4"
+}]
