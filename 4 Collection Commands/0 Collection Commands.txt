@@ -1,0 +1,36 @@
+to create a collection
+Collections are auto-created when first document is inserted
+db.createCollection("<Collection Name>")
+
+db.createCollection("products", {capped:true, size:1000000, max:100})
+
+db.createCollection( "log2", { capped: true, size: 5242880, max: 5000 } )
+The size field is always required, even when you specify the max number of documents.
+
+// autoIndexId Deprecated in mongo version 3 or 4
+db.createCollection("products", {capped:true, size:1000000, max:100}, {autoIndexId:false})   
+==============================================================================================================
+Show List of Collection
+show collections
+==============================================================================================================
+Drop Collection
+db.<Collection Name>.drop()
+==============================================================================================================
+Check if a Collection is Capped
+db.nonCappedCollection1.isCapped()
+db.cappedCollection1.isCapped()
+==============================================================================================================
+Convert a Collection to Capped
+db.runCommand( { convertToCapped: "log2", size: 100000 } )
+==============================================================================================================
+Change the Size of a Capped Collection
+db.runCommand( { collMod: "log", cappedSize: 5242880 } )
+==============================================================================================================
+Change Maximum Documents in a Capped Collection
+db.runCommand( { collMod: "log", cappedMax: 5000 } )
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
