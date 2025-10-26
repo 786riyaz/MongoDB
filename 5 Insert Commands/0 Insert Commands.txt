@@ -1,0 +1,21 @@
+Insert Single Document
+// Example: insert a single document into the "users" collection
+db.users.insertOne({ name: "Riyaz", age: 25, city: "Ahmedabad" })
+===========================================================================================================
+Insert Many Documents 
+// Example: insert multiple documents into the "users" collection
+db.users.insertMany([
+    { name: "Riyaz", age: 25, city: "Ahmedabad" },
+    { name: "Arbaz", age: 24, city: "Ahmedabad" },
+    { name: "Neha", age: 27, city: "Surat" }
+])
+// Option: unordered insert so other inserts continue on error
+db.users.insertMany([
+    { name: "A", age: 20 },
+    { _id: 1, name: "B" } // suppose _id conflict
+], { ordered: false })
+===========================================================================================================
+===========================================================================================================
+===========================================================================================================
+===========================================================================================================
+===========================================================================================================
