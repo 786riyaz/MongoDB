@@ -1,0 +1,17 @@
+VECTOR SEARCH (MongoDB Atlas Vector Search)
+
+Used for **AI / semantic search** using embeddings.
+
+db.movies.createIndex({ plotEmbedding: "vectorSearch" });
+
+db.movies.find({
+  plotEmbedding: {
+    $vectorSearch: {
+      queryVector: [0.12, 0.45, 0.89, ...],
+      numCandidates: 50,
+      limit: 5
+    }
+  }
+})
+
+Helps find similar items based on meaning, not just text.
