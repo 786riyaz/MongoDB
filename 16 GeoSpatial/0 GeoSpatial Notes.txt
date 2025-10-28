@@ -1,0 +1,19 @@
+Geospatial Queries
+Used for location-based searches using coordinates.
+
+db.places.createIndex({ location: "2dsphere" })
+
+db.places.insertMany([
+  { name: "Coffee Shop", location: { type: "Point", coordinates: [77.5946, 12.9716] } },
+  { name: "Mall", location: { type: "Point", coordinates: [77.5999, 12.9789] } }
+])
+
+// Find nearby locations within 1000 meters
+db.places.find({
+  location: {
+    $near: {
+      $geometry: { type: "Point", coordinates: [77.5946, 12.9716] },
+      $maxDistance: 1000
+    }
+  }
+})

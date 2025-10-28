@@ -1,0 +1,25 @@
+### ✅ Custom Validation
+You can define validation rules on a collection to restrict data formats.
+db.createCollection("users", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name", "age"],
+      properties: {
+        name: {
+          bsonType: "string",
+          description: "must be a string"
+        },
+        age: {
+          bsonType: "int",
+          minimum: 18,
+          description: "must be an integer >= 18"
+        }
+      }
+    }
+  }
+})
+
+Try inserting:
+db.users.insertOne({ name: "Riyaz", age: 25 }) // ✅ Works
+db.users.insertOne({ name: "Ali", age: 15 })   // ❌ Validation fails
