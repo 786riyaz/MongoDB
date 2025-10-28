@@ -1,0 +1,1 @@
+mongodb+srv://devilkhan:<db_password>@riyazmongodbatlas.ahpe3pk.mongodb.net/?retryWrites=true&w=majority&appName=RiyazMongodbAtlas
