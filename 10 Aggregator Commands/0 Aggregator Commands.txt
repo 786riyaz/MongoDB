@@ -57,7 +57,7 @@ db.orders.aggregate([
       from : "products",
       localField : "productID",
       foreignField : "productID",
-      as : "productInto"
+      as : "productInfo"
     }
   }
 ])

@@ -1,0 +1,42 @@
+MongoDB Collation - Explanation
+
+Meaning:
+-----------
+In MongoDB, collation means the set of rules that determine how string comparison is performed,
+such as sorting order, case sensitivity, and accent sensitivity.
+
+In simple terms:
+-----------------
+Collation controls how text is matched and sorted in queries.
+For example:
+- Whether "A" and "a" are considered equal (case-insensitive)
+- Whether "café" and "cafe" are treated the same (accent-insensitive)
+- What language-specific sorting rules to use (e.g., English vs. French)
+
+Example:
+---------
+db.users.find({ name: "riyaz" }).collation({ locale: "en", strength: 2 })
+
+Explanation:
+- Uses English language rules
+- Ignores case differences (so "Riyaz" and "riyaz" both match)
+
+Common Collation Options:
+---------------------------
+| Option             | Description                               | Example                  |
+|--------------------|-------------------------------------------|--------------------------|
+| locale             | Language/region rules (e.g. "en", "fr")   | "en"                     |
+| strength           | Comparison sensitivity (1–5)               | 1=base only, 2=case-insensitive, 3=case-sensitive |
+| caseLevel          | Forces case sensitivity when strength<3    | true / false             |
+| numericOrdering    | Sort "10" after "2" (numeric sort)         | true                     |
+| alternate          | How to handle spaces/punctuations          | "non-ignorable"/"shifted"|
+
+Sorting Example:
+-----------------
+db.users.find().sort({ name: 1 }).collation({ locale: "en", strength: 2 })
+=> Sorts names alphabetically, ignoring case differences.
+
+Key Takeaway:
+---------------
+Collation = language-aware string comparison rules.
+It affects how MongoDB matches, filters, and sorts text fields.

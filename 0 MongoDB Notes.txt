@@ -1,0 +1,52 @@
+show dbs
+use <DatabaseName>
+show Collections
+db
+db.dropDatabase()
+db.createCollection("<Collection Name>")
+db.<Collection Name>. drop();
+=================================================================================
+db.CollectionName.insertOne({name:"Riyaz", age:25})
+db.CollectionName.insertMany([{name:"Riyaz", age:25},{name:"Test", age:25},{name:"XYZ", age:25}])
+=================================================================================
+db.CollectionName.find()
+db.CollectionName.find().pretty();
+db.CollectionName.find().find({age:25})
+db.CollectionName.find().find({age:{$gte:25}})
+db.CollectionName.find().find({age:{$gt:25}})
+db.CollectionName.findOne({name:"Riyaz"})
+=================================================================================
+db.CollectionName.updateOne(
+    {name:"Riyaz"},         // Find
+    {$set:{age:26}}         // Replace
+)
+=================================================================================
+db.CollectionName.deleteOne({name:"Riyaz"})
+db.CollectionName.deleteMany({name:"Riyaz"})
+=================================================================================
+db.CollectionName.countDocuments()
+db.CollectionName.countDocuments({age:{$gte:25}})
+=================================================================================
+db.CollectionName.createIndex({name:1})
+db.CollectionName.createIndexes()
+=================================================================================
+db.CollectionName.aggregate([
+    {$group:{_id:"city", total:{$sum:1}}},
+    {},
+    {}
+])
+=================================================================================
+db.CollectionName.aggregate([
+    {$match:{age:{$gt:20}}},
+    {$sort:{age:1}},
+    {$project:{firstName:1, class:1, id:0}}
+])
+=================================================================================
+db.CollectionName.aggregate([
+    { $match: { Category: "Electronics" } },
+    { $group: { _id: "$Brand", totalPrice: { $sum: "$Price" } } }
+  ])
+=================================================================================
+=================================================================================
+=================================================================================
+=================================================================================
