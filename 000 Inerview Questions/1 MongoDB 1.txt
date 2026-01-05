@@ -1,0 +1,314 @@
+﻿I want top 100 interview question and their descriptive answer for MongoDB
+I want in Question-Answer Format
+Here are 100 carefully curated MongoDB interview questions with concise, descriptive answers in Q-A format, grouped by topic for quick review and practice.[1]
+Basics
+
+Q1. What is MongoDB?[1]
+A1. MongoDB is a document database that stores data as BSON documents and is designed for developer productivity and horizontal scaling.[1]
+
+Q2. What is a document in MongoDB?[1]
+A2. A document is the fundamental data unit represented as a BSON object, analogous to a JSON object with richer types.[1]
+
+Q3. What is a collection?[1]
+A3. A collection is a grouping of MongoDB documents similar to a table, but without a fixed schema enforced by the database.[1]
+
+Q4. What is BSON and how does it differ from JSON?[1]
+A4. BSON is a binary representation of JSON-like documents that supports additional data types like dates and ObjectIds for efficient storage and traversal.[1]
+
+Q5. What is an ObjectId?[1]
+A5. ObjectId is a 12-byte unique identifier used by default for the _id field, providing uniqueness and efficient indexing.[1]
+
+Q6. What is mongod vs mongos?[1]
+A6. mongod is the core database server process, while mongos is the query router used to route operations in sharded clusters.[1]
+
+Q7. What is a namespace in MongoDB?[1]
+A7. A namespace is the fully qualified name of a collection or index combining database and collection names.[1]
+
+Q8. What is MongoDB Atlas?[2]
+A8. MongoDB Atlas is a fully managed multi‑cloud database service for deploying, running, and scaling MongoDB.[2]
+
+Q9. What are the main MongoDB capabilities developers start with?[3]
+A9. Core capabilities include data modeling, CRUD, aggregations, indexing, sharding, and replication, with official drivers and tools to build applications.[3]
+
+Q10. Where is the authoritative MongoDB manual?[4]
+A10. The current, stable MongoDB manual is hosted at the manual site and documents versions including 7.0 and above.[4]
+CRUD
+
+Q11. What is CRUD in MongoDB?[1]
+A11. CRUD refers to Create, Read, Update, and Delete operations provided by the MongoDB query API on documents in collections.[1]
+
+Q12. How do find and findOne differ?[1]
+A12. find returns a cursor over all matching documents, while findOne returns a single matching document or null.[1]
+
+Q13. What is an upsert?[1]
+A13. An upsert is an update operation that inserts a new document if no existing document matches the filter.[1]
+
+Q14. What is projection in queries?[1]
+A14. Projection specifies which fields to include or exclude in the result to optimize network and processing overhead.[1]
+
+Q15. How do deleteOne and deleteMany differ?[1]
+A15. deleteOne removes a single matching document, whereas deleteMany removes all documents that match the filter.[1]
+
+Q16. What are common query operators?[1]
+A16. Common operators include comparison ($gt, $gte, $lt, $lte, in),logical(and, $or, not),andelementoperators(exists, $type).[1]
+
+Q17. What is write concern?[1]
+A17. Write concern specifies the level of acknowledgment requested from MongoDB for write operations, affecting durability across replica sets.[1]
+
+Q18. What is read preference?[1]
+A18. Read preference determines which replica set members are eligible to receive read operations, such as primary or secondaries.[1]
+
+Q19. What are bulk operations?[1]
+A19. Bulk operations allow batching multiple insert, update, and delete operations to improve throughput and reduce round trips.[1]
+
+Q20. What does explain do?[1]
+A20. explain reveals query execution plans and index usage to help diagnose and optimize query performance.[1]
+Indexes
+
+Q21. What is an index in MongoDB?[5]
+A21. An index is a special data structure that stores field values in an ordered B‑tree to support efficient queries and sorts.[5]
+
+Q22. Why are indexes important?[5]
+A22. Indexes reduce the number of documents scanned to satisfy queries and enable fast equality, range, and sorted result retrievals.[5]
+
+Q23. What is the default index?[5]
+A23. MongoDB automatically creates a unique index on the _id field for every collection, which cannot be dropped.[5]
+
+Q24. What is a single-field vs compound index?[5]
+A24. A single-field index covers one field, while a compound index orders multiple fields to support queries on field combinations.[5]
+
+Q25. What is a unique index?[5]
+A25. A unique index enforces uniqueness for indexed field values to prevent duplicate entries across documents.[5]
+
+Q26. What is a TTL index?[5]
+A26. A TTL (Time To Live) index automatically expires and removes documents after a defined time period via expireAfterSeconds.[5]
+
+Q27. What is a sparse or partial index?[5]
+A27. Sparse indexes only include documents with the indexed field present, while partial indexes index documents matching a filter expression.[5]
+
+Q28. What is a text index?[5]
+A28. A text index supports full‑text search on string content with language-specific stemming and scoring capabilities.[5]
+
+Q29. What are geospatial indexes?[5]
+A29. Geospatial indexes like 2dsphere support queries on geographic data for proximity and spatial relations.[5]
+
+Q30. What are hidden indexes?[5]
+A30. Hidden indexes exist on disk but are not used by the query planner, enabling safe index testing and rollback planning.[5]
+
+Q31. How do you create an index?[6]
+A31. Use db.collection.createIndex({ field: 1 or -1 }, options) from mongosh or drivers to create an index with optional properties.[6]
+
+Q32. How are index names formed?[5]
+A32. By default, MongoDB concatenates keys and directions with underscores, e.g., {item:1, quantity:-1} becomes item_1_quantity_-1.[5]
+
+Q33. Do indexes affect writes?[5]
+A33. Yes, indexes speed reads but add overhead to writes since inserts and updates must also maintain index structures.[5]
+
+Q34. How to view and drop indexes?[6]
+A34. Use getIndexes() to list index specs and dropIndex() or dropIndexes() to remove one or many indexes as needed.[6]
+
+Q35. What is a covering index?[5]
+A35. A covering index satisfies a query using only index keys without scanning documents, improving performance for matching projections.[5]
+Aggregation
+
+Q36. What is the aggregation pipeline?[7]
+A36. The aggregation pipeline processes documents through ordered stages to transform, compute, and reshape results.[7]
+
+Q37. What does $match do?[7]
+A37. $match filters input documents by criteria to reduce downstream work and improve pipeline efficiency.[7]
+
+Q38. What does $group do?[7]
+A38. $group aggregates documents by keys and computes accumulations like sums, counts, and averages.[7]
+
+Q39. What does $project do?[7]
+A39. $project shapes the output by including, excluding, computing, or renaming fields for subsequent stages or final results.[7]
+
+Q40. What does $sort do?[7]
+A40. $sort orders documents by specified fields for deterministic result ordering or preparatory grouping steps.[7]
+
+Q41. What does $lookup do?[7]
+A41. $lookup performs left outer joins across collections, combining related documents based on specified fields or pipelines.[7]
+
+Q42. What does $unwind do?[7]
+A42. $unwind deconstructs array fields and outputs a document per array element, enabling per‑item processing.[7]
+
+Q43. What is $facet used for?[7]
+A43. $facet runs multiple sub‑pipelines in parallel on the same input to produce multi‑dimensional aggregated results.[7]
+
+Q44. What do set/addFields do?[7]
+A44. $set (alias $addFields) adds or replaces fields with computed expressions to enrich documents.[7]
+
+Q45. What are $bucket and $bucketAuto?[7]
+A45. $bucket groups documents into specified ranges, while $bucketAuto computes bucket boundaries based on distribution.[7]
+
+Q46. When do pipelines modify data?[7]
+A46. Aggregations do not modify collections unless using $out to write a new collection or $merge to write into an existing one.[7]
+
+Q47. How does aggregation compare to map‑reduce?[7]
+A47. Aggregation is the preferred, higher‑performance alternative to map‑reduce, which has been deprecated since 5.0.[7]
+
+Q48. Can aggregation run on sharded collections?[7]
+A48. Yes, the pipeline supports sharded collections with distributed processing coordinated across shards.[7]
+
+Q49. What are pipeline limitations?[7]
+A49. There are limits on result sizes, memory usage, and certain stage constraints, requiring awareness of documented limits.[7]
+
+Q50. What are expressions and operators in pipelines?[7]
+A50. Expressions combine constants, field paths, and operators (e.g., $add) to compute values in stages.[7]
+Replication
+
+Q51. What is replication in MongoDB?[8]
+A51. Replication uses a replica set-multiple mongod processes maintaining the same data-to provide redundancy and high availability.[8]
+
+Q52. What are primary and secondary members?[8]
+A52. The primary receives writes, while secondaries replicate the primary's oplog and can serve reads based on read preference.[8]
+
+Q53. How do elections work?[9]
+A53. Elections promote an eligible secondary to primary when needed, ensuring continuity after failures or maintenance events.[9]
+
+Q54. What is an arbiter?[8]
+A54. An arbiter votes in elections without storing data, helping maintain odd voting members for quorum.[8]
+
+Q55. What is the oplog?[8]
+A55. The oplog is a capped collection of operations on the primary that secondaries tail and apply to maintain consistency.[8]
+
+Q56. How does write concern interact with replication?[8]
+A56. Write concern w values (e.g., majority) require acknowledgment after replication to enough members for durability guarantees.[8]
+
+Q57. What are hidden or priority members?[8]
+A57. Hidden members replicate data but are excluded from client reads and elections, and priority controls election likelihood.[8]
+
+Q58. What is rollback?[8]
+A58. Rollback occurs when a former primary rejoins without having replicated its divergent writes to the new primary's history.[8]
+
+Q59. Why deploy three-member replica sets?[10]
+A59. Three-member replica sets improve fault tolerance and allow automatic elections while maintaining write availability.[10]
+
+Q60. How to deploy a replica set?[11]
+A60. Deploy separate mongod instances, configure replication settings, and initiate with rs.initiate() followed by adding members.[11]
+Sharding
+
+Q61. What is sharding in MongoDB?[12]
+A61. Sharding distributes data across multiple machines to support very large datasets and high throughput workloads.[12]
+
+Q62. What is a shard key?[12]
+A62. A shard key is an indexed field or fields whose values determine the distribution of documents across shards.[12]
+
+Q63. Range vs hashed sharding-what's the difference?[12]
+A63. Range sharding partitions contiguous value ranges, while hashed sharding distributes values pseudo‑randomly to balance load.[12]
+
+Q64. What is mongos in a sharded cluster?[12]
+A64. mongos is the stateless query router that routes client operations to the correct shards and combines results.[12]
+
+Q65. What is the primary shard?[13]
+A65. The primary shard holds unsharded data for a database, while sharded collections span multiple shards.[13]
+
+Q66. What is the balancer?[12]
+A66. The balancer automatically relocates chunks between shards to maintain even data and load distribution.[12]
+
+Q67. What are zones (tag-aware sharding)?[12]
+A67. Zones associate data ranges with specific shards to enforce data locality and regulatory or latency requirements.[12]
+
+Q68. How to choose a good shard key?[12]
+A68. Choose a high‑cardinality, well‑distributed key used in common queries to avoid hotspots and unbalanced chunks.[12]
+
+Q69. Can aggregations and queries span shards transparently?[12]
+A69. Yes, mongos routes and merges results across shards so applications operate as if querying a single logical database.[12]
+
+Q70. Do transactions work in sharded clusters?[14]
+A70. Yes, MongoDB supports distributed transactions that can span multiple shards, collections, and databases.[14]
+Transactions
+
+Q71. What are transactions in MongoDB?[14]
+A71. Transactions provide ACID guarantees across multiple operations and collections, enabling atomic multi‑document changes.[14]
+
+Q72. When should transactions be used?[14]
+A72. Use transactions when multi‑document atomicity is essential, recognizing the added latency and resource costs.[14]
+
+Q73. How are transactions started and ended?[14]
+A73. Applications start a session, begin a transaction, execute operations, then commit or abort to finalize changes.[14]
+
+Q74. What isolation do transactions provide?[14]
+A74. Transactions use snapshot isolation semantics to provide a consistent view across operations in the transaction.[14]
+
+Q75. Are there limitations to transactions?[14]
+A75. Yes, transactions have timeouts, oplog size impacts, and performance considerations that should be reviewed before use.[14]
+
+Q76. How do transactions differ from retryable writes?[14]
+A76. Retryable writes guarantee idempotent single‑operation retries, while transactions coordinate multiple operations atomically.[14]
+
+Q77. How do drivers support transactions?[15]
+A77. Official drivers use sessions to run transactions with start, commit, and abort APIs for multi‑document workflows.[15]
+
+Q78. Do language libraries like Mongoose support transactions?[16]
+A78. Yes, ODMs like Mongoose wrap driver sessions and provide helpers to run and retry transactions idiomatically.[16]
+Change streams
+
+Q79. What are change streams?[1]
+A79. Change streams provide a real‑time, resumable feed of data changes from collections, databases, or entire deployments.[1]
+
+Q80. What are resume tokens?[1]
+A80. Resume tokens allow clients to restart change stream consumption from a specific point after interruptions.[1]
+
+Q81. What are change stream deployment requirements?[1]
+A81. Change streams require replica sets or sharded clusters because they rely on the oplog to capture changes.[1]
+
+Q82. What are common change stream use cases?[1]
+A82. Typical uses include event‑driven processing, cache invalidation, search index sync, and audit trails.[1]
+Schema design
+
+Q83. Embedding vs referencing-when to use which?[1]
+A83. Embed data for locality and atomicity when relationships are bounded, and reference when data is large, shared, or unbounded.[1]
+
+Q84. How to model one‑to‑many relationships?[1]
+A84. Use arrays of embedded subdocuments for small bounded sets or references for large and growing related data.[1]
+
+Q85. How to model many‑to‑many relationships?[1]
+A85. Use referencing with arrays of foreign keys or linking collections to maintain flexibility and avoid duplication conflicts.[1]
+
+Q86. What is schema validation?[1]
+A86. Schema validation enforces document structure and constraints with $jsonSchema to improve data quality.[1]
+
+Q87. What are time‑series/bucketing patterns?[1]
+A87. Time‑series collections optimize storage and queries for time‑stamped data using bucketed internal organization.[1]
+
+Q88. What is polymorphic schema design?[1]
+A88. Polymorphism stores different but related document shapes in one collection while validating common required fields.[1]
+Performance and administration
+
+Q89. What is the database profiler?[1]
+A89. The profiler captures slow and targeted operations to diagnose performance issues and indexing needs.[1]
+
+Q90. What is WiredTiger?[1]
+A90. WiredTiger is the default storage engine providing compression, document‑level concurrency, and checkpointing for durability.[1]
+
+Q91. What are capped collections?[1]
+A91. Capped collections are fixed‑size, high‑throughput collections that preserve insertion order and automatically overwrite oldest documents.[1]
+
+Q92. What are time‑series collections?[1]
+A92. Time‑series collections optimize for inserts and queries on time‑stamped measurements by grouping data into efficient buckets.[1]
+
+Q93. What is collation?[5]
+A93. Collation specifies language‑specific rules for string comparison and can be used with queries and indexes.[5]
+
+Q94. How does Atlas help with performance?[5]
+A94. Atlas includes a Performance Advisor that recommends indexes to improve slow queries and suggests index cleanup.[5]
+
+Q95. What are typical backup strategies?[1]
+A95. Strategies include snapshots and continuous backups via managed services like Atlas or filesystem‑level backups for self‑managed deployments.[1]
+
+Q96. What GUI tools are available?[3]
+A96. Official tools include MongoDB Compass and other connectors, along with driver libraries for application development.[3]
+Drivers and ecosystem
+
+Q97. What are MongoDB drivers?[17]
+A97. Official drivers are language‑specific client libraries that connect applications to MongoDB or Atlas clusters.[17]
+
+Q98. How are connection strings used?[17]
+A98. Connection strings (URI) encode server addresses, authentication, TLS, and options for drivers to establish connections.[17]
+
+Q99. What is Mongoose in the Node.js ecosystem?[16]
+A99. Mongoose is an ODM that builds on the Node.js driver to provide models, validation, middleware, and transaction helpers.[16]
+
+Q100. How do documentation versions and updates work?[4]
+A100. The MongoDB docs site maintains versioned manuals with the stable manual available at the manual root and version‑specific pages for reference.[4]
