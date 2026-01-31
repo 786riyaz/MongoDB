@@ -1,8 +1,0 @@
-SHARDING
-Distributes data across multiple servers for scalability.
-sh.enableSharding("shopDB")
-
-// Choose a shard key
-sh.shardCollection("shopDB.orders", { customerID: 1 })
-
-Each shard stores part of the data (horizontal partitioning).
