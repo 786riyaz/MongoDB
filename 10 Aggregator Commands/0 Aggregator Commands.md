@@ -1,93 +1,134 @@
-Basic Syntax :::
+# MongoDB Aggregation Framework Guide
+
+---
+
+## Basic Aggregation Syntax
+
+```js
 db.collection.aggregate([
-    { stage1 },
-    { stage2 },
-    { stage3 }
+  { stage1 },
+  { stage2 },
+  { stage3 }
 ])
-====================================================================================================
-Basic $match and $group Example ::: 
-// Find total sales by category
+```
+
+---
+
+## Basic `$match` and `$group` Example
+
+### Example — Find Total Sales by Category
+
+```js
 db.sales.aggregate([
-    {
-        $match: { status: "completed" }
-    },
-    {
-        $group: {
-            _id: "$category",
-            totalSales: { $sum: "$amount" }
-        }
-    }
-])
-====================================================================================================
-$lookup Example ( Basic Join ) :::
-// Join orders with customers
-db.orders.aggregate([
-    {
-        $lookup: {
-            from: "customers",
-            localField: "customerId",
-            foreignField: "_id",
-            as: "customerInfo"
-        }
-    },
-    {
-        $unwind: "$customerInfo"
-    },
-    {
-        $project: {
-            orderId: 1,
-            amount: 1,
-            customerName: "$customerInfo.name",
-            email: "$customerInfo.email"
-        }
-    }
-])
---------
-db.orders.aggregate([
-  { 
-    $lookup : {
-    from : "customers",
-    localField : "customerID",
-    foreignField : "customerID",
-    as : "customerInfo"
-  } 
-  }, 
   {
-    $lookup : {
-      from : "products",
-      localField : "productID",
-      foreignField : "productID",
-      as : "productInfo"
+    $match: { status: "completed" }
+  },
+  {
+    $group: {
+      _id: "$category",
+      totalSales: { $sum: "$amount" }
     }
   }
 ])
----------
+```
+
+---
+
+## `$lookup` Example (Basic Join)
+
+### Join Orders with Customers
+
+```js
 db.orders.aggregate([
-  { 
-    $lookup : {
-    from : "customers",
-    localField : "customerID",
-    foreignField : "customerID",
-    as : "customerInfo"
-  } 
-  }, 
   {
-    $lookup : {
-      from : "products",
-      localField : "productID",
-      foreignField : "productID",
-      as : "productInfo"
+    $lookup: {
+      from: "customers",
+      localField: "customerId",
+      foreignField: "_id",
+      as: "customerInfo"
     }
   },
-  { $unwind : "$customerInfo"},
-  { $unwind : "$productInfo"},
   {
-    $project : {
-      _id : 0, orderID : 1, "customerInfo.name" : 1, "productInfo.productName" : 1, "productInfo.price" : 1, quantity : 1
+    $unwind: "$customerInfo"
+  },
+  {
+    $project: {
+      orderId: 1,
+      amount: 1,
+      customerName: "$customerInfo.name",
+      email: "$customerInfo.email"
     }
   }
 ])
+```
 
+---
+
+### Multiple `$lookup` Joins
+
+```js
+db.orders.aggregate([
+  {
+    $lookup: {
+      from: "customers",
+      localField: "customerID",
+      foreignField: "customerID",
+      as: "customerInfo"
+    }
+  },
+  {
+    $lookup: {
+      from: "products",
+      localField: "productID",
+      foreignField: "productID",
+      as: "productInfo"
+    }
+  }
+])
+```
+
+---
+
+### `$lookup` with `$unwind` and `$project`
+
+```js
+db.orders.aggregate([
+  {
+    $lookup: {
+      from: "customers",
+      localField: "customerID",
+      foreignField: "customerID",
+      as: "customerInfo"
+    }
+  },
+  {
+    $lookup: {
+      from: "products",
+      localField: "productID",
+      foreignField: "productID",
+      as: "productInfo"
+    }
+  },
+  { $unwind: "$customerInfo" },
+  { $unwind: "$productInfo" },
+  {
+    $project: {
+      _id: 0,
+      orderID: 1,
+      "customerInfo.name": 1,
+      "productInfo.productName": 1,
+      "productInfo.price": 1,
+      quantity: 1
+    }
+  }
+])
+```
+
+---
+
+### `$lookup` + `$group` (Customer Order Summary)
+
+```js
 db.orders.aggregate([
   // 1️⃣ Join customers
   {
@@ -116,12 +157,14 @@ db.orders.aggregate([
   // 4️⃣ Group by customer
   {
     $group: {
-      _id: "$customerInfo.name",        // group by customer name (or "$customerInfo.customerID")
-      totalOrders: { $sum: 1 },         // count how many orders they made
-      totalAmount: {                    // calculate total spending
-        $sum: { $multiply: [ "$productInfo.price", "$quantity" ] }
+      _id: "$customerInfo.name",
+      totalOrders: { $sum: 1 },
+      totalAmount: {
+        $sum: {
+          $multiply: ["$productInfo.price", "$quantity"]
+        }
       },
-      orders: {                         // collect all orders
+      orders: {
         $push: {
           orderID: "$orderID",
           product: "$productInfo.productName",
@@ -132,7 +175,7 @@ db.orders.aggregate([
     }
   },
 
-  // 5️⃣ Optional: rename _id to "customerName"
+  // 5️⃣ Rename _id to customerName
   {
     $project: {
       _id: 0,
@@ -143,62 +186,85 @@ db.orders.aggregate([
     }
   }
 ])
+```
 
-====================================================================================================
-Date Grouping Example ::: 
-// Group sales by date
+---
+
+## Date Grouping Example
+
+### Group Sales by Date
+
+```js
 db.sales.aggregate([
-    {
-        $group: {
-            _id: {
-                $dateToString: {
-                    format: "%Y-%m-%d",
-                    date: "$date"
-                }
-            },
-            dailyTotal: { $sum: "$amount" },
-            numberOfTransactions: { $count: {} }
+  {
+    $group: {
+      _id: {
+        $dateToString: {
+          format: "%Y-%m-%d",
+          date: "$date"
         }
+      },
+      dailyTotal: { $sum: "$amount" },
+      numberOfTransactions: { $count: {} }
     }
+  }
 ])
-====================================================================================================
-$bucket Example ::: 
-// Group products by price ranges
-db.products.aggregate([
-    {
-        $bucket: {
-            groupBy: "$price",
-            boundaries: [0, 50, 100, 500, 1000],
-            default: "1000+",
-            output: {
-                count: { $sum: 1 },
-                items: { $push: "$name" },
-                avgPrice: { $avg: "$price" }
-            }
-        }
-    }
-])
+```
 
+---
+
+## `$bucket` Examples
+
+### Group Products by Price Ranges
+
+```js
 db.products.aggregate([
   {
     $bucket: {
-      groupBy: "$price",              // field to group by
-      boundaries: [0, 500, 1000, 5000, 10000], // define price ranges
-      default: "10000+",              // bucket for prices > 10000
+      groupBy: "$price",
+      boundaries: [0, 50, 100, 500, 1000],
+      default: "1000+",
       output: {
-        count: { $sum: 1 },           // count of items in the bucket
-        products: { $push: "$productName" }, // list of product names
-        avgPrice: { $avg: "$price" }  // average price in that range
+        count: { $sum: 1 },
+        items: { $push: "$name" },
+        avgPrice: { $avg: "$price" }
       }
     }
   }
 ])
+```
 
+---
+
+### Detailed `$bucket` Example
+
+```js
+db.products.aggregate([
+  {
+    $bucket: {
+      groupBy: "$price",
+      boundaries: [0, 500, 1000, 5000, 10000],
+      default: "10000+",
+      output: {
+        count: { $sum: 1 },
+        products: { $push: "$productName" },
+        avgPrice: { $avg: "$price" }
+      }
+    }
+  }
+])
+```
+
+---
+
+### `$bucketAuto` Example
+
+```js
 db.products.aggregate([
   {
     $bucketAuto: {
       groupBy: "$price",
-      buckets: 5, // MongoDB automatically divides prices into 5 even ranges
+      buckets: 5,
       output: {
         count: { $sum: 1 },
         avgPrice: { $avg: "$price" },
@@ -207,35 +273,46 @@ db.products.aggregate([
     }
   }
 ])
+```
 
-====================================================================================================
-Advanced $graphLookup Example ::: 
-// Find employee hierarchy
+---
+
+## Advanced `$graphLookup` Examples
+
+### Employee Hierarchy
+
+```js
 db.employees.aggregate([
-    {
-        $graphLookup: {
-            from: "employees",
-            startWith: "$managerId",
-            connectFromField: "managerId",
-            connectToField: "_id",
-            as: "reportingHierarchy",
-            maxDepth: 5
-        }
+  {
+    $graphLookup: {
+      from: "employees",
+      startWith: "$managerId",
+      connectFromField: "managerId",
+      connectToField: "_id",
+      as: "reportingHierarchy",
+      maxDepth: 5
     }
+  }
 ])
+```
 
+---
+
+### Customer → Orders → Products
+
+```js
 db.customers.aggregate([
   {
-    $match: { name: "RiyazKhan" } // start from a specific customer
+    $match: { name: "RiyazKhan" }
   },
   {
     $graphLookup: {
       from: "orders",
-      startWith: "$customerID",        // RiyazKhan’s customerID
-      connectFromField: "customerID",  // link customers recursively
-      connectToField: "customerID",    // orders with the same customerID
-      as: "relatedOrders",             // collect all connected orders
-      restrictSearchWithMatch: {},     // optional filter
+      startWith: "$customerID",
+      connectFromField: "customerID",
+      connectToField: "customerID",
+      as: "relatedOrders",
+      restrictSearchWithMatch: {},
       maxDepth: 1
     }
   },
@@ -248,7 +325,13 @@ db.customers.aggregate([
     }
   }
 ])
+```
 
+---
+
+### Find Similar Purchases
+
+```js
 db.customers.aggregate([
   {
     $match: { name: "RiyazKhan" }
@@ -273,29 +356,41 @@ db.customers.aggregate([
     }
   }
 ])
-====================================================================================================
-Complex $unionWith Example
-// Combine current and archived orders
-db.currentOrders.aggregate([
-    {
-        $unionWith: {
-            coll: "archivedOrders",
-            pipeline: [
-                { 
-                    $match: { 
-                        date: { 
-                            $gte: new Date("2024-01-01") 
-                        } 
-                    }
-                }
-            ]
-        }
-    },
-    {
-        $sort: { date: -1 }
-    }
-])
+```
 
+---
+
+## Complex `$unionWith` Examples
+
+### Combine Current and Archived Orders
+
+```js
+db.currentOrders.aggregate([
+  {
+    $unionWith: {
+      coll: "archivedOrders",
+      pipeline: [
+        {
+          $match: {
+            date: {
+              $gte: new Date("2024-01-01")
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    $sort: { date: -1 }
+  }
+])
+```
+
+---
+
+### Union Customers and Orders into a Single Stream
+
+```js
 db.customers.aggregate([
   {
     $project: {
@@ -327,3 +422,4 @@ db.customers.aggregate([
   },
   { $sort: { type: 1 } }
 ])
+```
