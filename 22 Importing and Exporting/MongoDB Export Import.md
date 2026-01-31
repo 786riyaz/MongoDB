@@ -169,7 +169,3 @@ Restore folder:       mongorestore C:\backup\mongo\fixify
 Restore gzip:         mongorestore --gzip --archive=fixify.gz
 Rename DB restore:    mongorestore --nsFrom="fixify.*" --nsTo="mydb.*" ...
 ```
-
----
-
-END OF MONGODB COMMAND NOTES
