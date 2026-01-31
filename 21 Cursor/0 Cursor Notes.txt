@@ -1,7 +1,0 @@
-A cursor is a pointer to result set of a `find()` query.
-
-const cursor = db.users.find({ age: { $gt: 20 } });
-cursor.forEach(doc => printjson(doc));
-
-You can also control:
-cursor.limit(5).skip(10).sort({ age: -1 });
